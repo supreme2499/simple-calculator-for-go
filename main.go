@@ -62,9 +62,9 @@ func main() {
 	}
 
 	if tns == "arab" {
-		fmt.Println(mathem(oper, nums))
+		fmt.Println(mathem(arab, oper, nums))
 	} else {
-		num := mathem(oper, nums)
+		num := mathem(rim, oper, nums)
 		if num < 1 {
 			panic("римской системе нет нуля и отрицательных чисел")
 		}
@@ -87,16 +87,16 @@ func status(nums string) (status string) {
 	return status
 }
 
-func mathem(oper string, nums []string) int {
+func mathem(sys map[string]int, oper string, nums []string) int {
 	switch oper {
 	case "+":
-		return (arab[nums[0]] + arab[nums[1]])
+		return (sys[nums[0]] + sys[nums[1]])
 	case "-":
-		return (arab[nums[0]] - arab[nums[1]])
+		return (sys[nums[0]] - sys[nums[1]])
 	case "/":
-		return (arab[nums[0]] / arab[nums[1]])
+		return (sys[nums[0]] / sys[nums[1]])
 	case "*":
-		return (arab[nums[0]] * arab[nums[1]])
+		return (sys[nums[0]] * sys[nums[1]])
 	default:
 		panic("используется неверный оператор")
 	}
