@@ -35,6 +35,7 @@ var (
 )
 
 func main() {
+
 	var tns string
 	in := bufio.NewReader(os.Stdin)
 	str, _ := in.ReadString('\n')
@@ -62,9 +63,9 @@ func main() {
 	}
 
 	if tns == "arab" {
-		fmt.Println(mathem(oper, nums))
+		fmt.Println(mathem(arab, oper, nums))
 	} else {
-		num := mathem(oper, nums)
+		num := mathem(rim, oper, nums)
 		if num < 1 {
 			panic("римской системе нет нуля и отрицательных чисел")
 		}
@@ -87,16 +88,16 @@ func status(nums string) (status string) {
 	return status
 }
 
-func mathem(oper string, nums []string) int {
+func mathem(sys map[string]int, oper string, nums []string) int {
 	switch oper {
 	case "+":
-		return (arab[nums[0]] + arab[nums[1]])
+		return (sys[nums[0]] + sys[nums[1]])
 	case "-":
-		return (arab[nums[0]] - arab[nums[1]])
+		return (sys[nums[0]] - sys[nums[1]])
 	case "/":
-		return (arab[nums[0]] / arab[nums[1]])
+		return (sys[nums[0]] / sys[nums[1]])
 	case "*":
-		return (arab[nums[0]] * arab[nums[1]])
+		return (sys[nums[0]] * sys[nums[1]])
 	default:
 		panic("используется неверный оператор")
 	}
@@ -110,31 +111,22 @@ func convert(num int) string {
 		Symbol string
 	}{
 		{100, "C"},
+		{90, "XC"},
 		{50, "L"},
+		{40, "XL"},
 		{10, "X"},
+		{9, "IX"},
 		{5, "V"},
+		{4, "IV"},
 		{1, "I"},
 	}
 
 	for i := 0; num > 0; {
-
 		if rim[i].Value <= num {
 			builder.WriteString(rim[i].Symbol)
 			num -= rim[i].Value
+			i = 0
 			continue
-		} else {
-			for j := i + 1; j < len(rim); j++ {
-				if rim[i].Value-rim[j].Value <= num {
-					if rim[i].Value-rim[j].Value == 5 {
-						continue
-					}
-					builder.WriteString(rim[j].Symbol)
-					builder.WriteString(rim[i].Symbol)
-					num -= rim[i].Value - rim[j].Value
-					i = 0
-					break
-				}
-			}
 		}
 		i++
 	}
